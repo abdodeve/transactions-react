@@ -21,10 +21,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   drawer: {
-    [theme.breakpoints.up("sm")]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
+    width: drawerWidth,
+    flexShrink: 0,
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
@@ -44,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     width: "100%",
   },
+  appName: { fontWeight: "bold", color: "#3498db" },
 }));
 
 const items = [
@@ -53,7 +52,7 @@ const items = [
     title: "List",
   },
   {
-    href: "/foo",
+    href: "/summary",
     icon: UsersIcon,
     title: "Récapitulatif",
   },
@@ -88,7 +87,7 @@ const NavbarDrawer = ({ children }: NavbarDrawerProps) => {
         <Typography
           color="textPrimary"
           variant="h3"
-          style={{ fontWeight: "bold", color: "#3498db" }}
+          className={classes.appName}
         >
           Transactions
         </Typography>
@@ -113,16 +112,12 @@ const NavbarDrawer = ({ children }: NavbarDrawerProps) => {
     </div>
   );
 
-  const container =
-    window !== undefined ? () => window.document.body : undefined;
-
   return (
     <div className={classes.root}>
       <nav className={classes.drawer} aria-label="mailbox folders">
         <Hidden smUp implementation="css">
           <Drawer
-            container={container}
-            variant="temporary"
+            variant="permanent"
             anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
             onClose={handleDrawerToggle}
