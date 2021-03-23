@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 const items = [
   {
-    href: "/",
+    href: "/list",
     icon: BarChartIcon,
     title: "List",
   },

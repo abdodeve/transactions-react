@@ -9,6 +9,12 @@ const Routes = () => {
     <div>
       <Switch>
         <Route exact path="/" component={TransactionsListScreen} />
+        <Route
+          exact
+          path="/transactions-react"
+          component={TransactionsListScreen}
+        />
+        <Route exact path="/list" component={TransactionsListScreen} />
         <Route exact path="/summary" component={SummaryScreen} />
       </Switch>
     </div>
