@@ -8,6 +8,14 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { v4 as uuid } from "uuid";
 import { connect } from "react-redux";
 import moment from "moment";
+import {
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+  Typography,
+} from "@material-ui/core";
 
 import { transactionType } from "../../Store/TransactionData/types";
 import { addTransactionAction } from "../../Store/TransactionData/actions";
@@ -65,12 +73,18 @@ const FormComponent: React.FC<Props> = ({
 }: Props) => {
   const classes = useStyles();
   const { register, handleSubmit } = useForm<Inputs>();
+  const [value, setValue] = React.useState("crédit");
+
   var defaultDate = moment().format("YYYY-MM-DDThh:mm:ss");
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     onClose();
     const newTransaction = { ...data, id: uuid() };
     addTransactionAction(newTransaction);
+  };
+
+  const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue((event.target as HTMLInputElement).value);
   };
 
   return (
@@ -91,12 +105,29 @@ const FormComponent: React.FC<Props> = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              id="type"
-              name="type"
-              inputRef={register({ required: true })}
-              label="Type"
-            />
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Type</FormLabel>
+              <RadioGroup
+                row
+                aria-label="type"
+                name="type"
+                value={value}
+                onChange={handleChangeRadio}
+              >
+                <FormControlLabel
+                  value="crédit"
+                  control={<Radio />}
+                  label="Crédit"
+                  inputRef={register({ required: true })}
+                />
+                <FormControlLabel
+                  value="débit"
+                  control={<Radio />}
+                  label="Débit"
+                  inputRef={register({ required: true })}
+                />
+              </RadioGroup>
+            </FormControl>
           </Grid>
           <Grid item xs={6}>
             <TextField

@@ -7,6 +7,7 @@ import ShowModelComponent from "./ShowModelComponent";
 import { readJson } from "./../../Utils/TransactionsUtil";
 import { transactionType } from "../../Store/TransactionData/types";
 import { setTransactionsAction } from "../../Store/TransactionData/actions";
+import { debits, credits, total } from "./../../Utils/TransactionsUtil";
 
 const columns: GridColDef[] = [
   {
@@ -57,6 +58,17 @@ type Props = ReturnType<typeof mapStateToProps> &
 const GridComponent: React.FC<Props> = ({ transactionStore }) => {
   return (
     <Box mt={3}>
+      <Box display="flex" flexDirection="row" mb={1} mr={1}>
+        <Box p={1} mr={1}>
+          Crédit: {credits(transactionStore)}
+        </Box>
+        <Box p={1} mr={1}>
+          Débits: {debits(transactionStore)}
+        </Box>
+        <Box p={1} mr={1}>
+          Total: {total(transactionStore)}
+        </Box>
+      </Box>
       <Card style={{ height: 659, width: "100%" }}>
         <DataGrid rows={transactionStore} columns={columns} pageSize={10} />
       </Card>
