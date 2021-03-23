@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/transactions-react/static/css/main.b5ed8daf.chunk.css",
+    "main.js": "/transactions-react/static/js/main.9235cd1e.chunk.js",
+    "main.js.map": "/transactions-react/static/js/main.9235cd1e.chunk.js.map",
+    "runtime-main.js": "/transactions-react/static/js/runtime-main.570da8cd.js",
+    "runtime-main.js.map": "/transactions-react/static/js/runtime-main.570da8cd.js.map",
+    "static/css/2.847a128f.chunk.css": "/transactions-react/static/css/2.847a128f.chunk.css",
+    "static/js/2.3361c490.chunk.js": "/transactions-react/static/js/2.3361c490.chunk.js",
+    "static/js/2.3361c490.chunk.js.map": "/transactions-react/static/js/2.3361c490.chunk.js.map",
+    "static/js/3.dd4fc6b5.chunk.js": "/transactions-react/static/js/3.dd4fc6b5.chunk.js",
+    "static/js/3.dd4fc6b5.chunk.js.map": "/transactions-react/static/js/3.dd4fc6b5.chunk.js.map",
+    "index.html": "/transactions-react/index.html",
+    "static/css/2.847a128f.chunk.css.map": "/transactions-react/static/css/2.847a128f.chunk.css.map",
+    "static/css/main.b5ed8daf.chunk.css.map": "/transactions-react/static/css/main.b5ed8daf.chunk.css.map",
+    "static/js/2.3361c490.chunk.js.LICENSE.txt": "/transactions-react/static/js/2.3361c490.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.570da8cd.js",
+    "static/css/2.847a128f.chunk.css",
+    "static/js/2.3361c490.chunk.js",
+    "static/css/main.b5ed8daf.chunk.css",
+    "static/js/main.9235cd1e.chunk.js"
+  ]
+}
