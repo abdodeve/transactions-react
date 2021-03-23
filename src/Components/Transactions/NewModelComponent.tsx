@@ -47,7 +47,7 @@ export default function NewModelComponent() {
       >
         <div className={classes.paper}>
           <h2 id="transition-modal-title">Nouvelle transaction</h2>
-          <FormComponent />
+          <FormComponent onClose={handleClose} />
         </div>
       </Modal>
     </div>

@@ -4,6 +4,7 @@ import Modal from "@material-ui/core/Modal";
 import { Button } from "@material-ui/core";
 
 import DetailsComponent from "./DetailsComponent";
+import { transactionType } from "./../../Store/TransactionData/types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,7 +22,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function ShowModelComponent() {
+type ShowModelComponentProps = {
+  transaction: transactionType;
+};
+
+export default function ShowModelComponent({
+  transaction,
+}: ShowModelComponentProps) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -39,7 +46,7 @@ export default function ShowModelComponent() {
         variant="contained"
         color="primary"
         size="small"
-        style={{ marginLeft: 16 }}
+        style={{ marginRight: 16 }}
         onClick={handleOpen}
       >
         Afficher
@@ -53,7 +60,7 @@ export default function ShowModelComponent() {
       >
         <div className={classes.paper}>
           <h2 id="transition-modal-title">Détails transaction</h2>
-          <DetailsComponent />
+          <DetailsComponent transaction={transaction} />
         </div>
       </Modal>
     </>

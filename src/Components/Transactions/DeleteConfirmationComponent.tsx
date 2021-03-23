@@ -5,6 +5,10 @@ import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Grid from "@material-ui/core/Grid";
+import { connect } from "react-redux";
+
+import { removeTransactionAction } from "./../../Store/TransactionData/actions";
+import { removeTransactionActionType } from "./../../Store/TransactionData/types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,12 +37,35 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function TransitionsModal() {
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    removeTransactionAction: (id: string | null) => {
+      dispatch(removeTransactionAction(id));
+    },
+  };
+};
+
+const connector = connect(null, mapDispatchToProps);
+
+type DeleteConfirmationComponentProps = {
+  transactionID: string | null;
+};
+type Props = ReturnType<typeof mapDispatchToProps> &
+  DeleteConfirmationComponentProps;
+
+const DeleteConfirmationComponent = ({
+  transactionID,
+  removeTransactionAction,
+}: Props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
     setOpen(true);
+  };
+
+  const onDelete = () => {
+    removeTransactionAction(transactionID);
   };
 
   const handleClose = () => {
@@ -72,7 +99,7 @@ export default function TransitionsModal() {
               variant="contained"
               startIcon={<DeleteIcon />}
               className={classes.buttonConfirmation}
-              onClick={handleOpen}
+              onClick={onDelete}
             >
               Confirmer
             </Button>
@@ -81,4 +108,6 @@ export default function TransitionsModal() {
       </Modal>
     </div>
   );
-}
+};
+
+export default connector(DeleteConfirmationComponent);

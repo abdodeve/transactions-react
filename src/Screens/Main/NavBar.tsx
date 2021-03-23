@@ -70,7 +70,9 @@ declare global {
 
 window.MyNamespace = window.MyNamespace || {};
 
-const NavbarDrawer = ({ children }: NavbarDrawerProps) => {
+const NavbarDrawer: FunctionComponent<NavbarDrawerProps> = ({
+  children,
+}: NavbarDrawerProps) => {
   const location = useLocation();
 
   const classes = useStyles();

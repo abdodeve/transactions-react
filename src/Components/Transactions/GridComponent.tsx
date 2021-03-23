@@ -1,49 +1,67 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { DataGrid, GridColDef, GridCellParams } from "@material-ui/data-grid";
+import { connect, ConnectedProps } from "react-redux";
 
-import { Box, Card } from "@material-ui/core";
-import ShowTransaction from "./ShowModelComponent";
+import { Box, Card, Button } from "@material-ui/core";
+import ShowModelComponent from "./ShowModelComponent";
+import { readJson } from "./../../Utils/TransactionsUtil";
+import { transactionType } from "../../Store/TransactionData/types";
+import { setTransactionsAction } from "../../Store/TransactionData/actions";
 
 const columns: GridColDef[] = [
   {
-    field: "id",
-    headerName: "Date",
+    field: "type",
+    headerName: "Type",
     flex: 1,
     renderCell: (params: GridCellParams) => (
       <strong>
+        <ShowModelComponent transaction={params.row as transactionType} />
         {params.value}
-        <ShowTransaction />
       </strong>
     ),
   },
-  { field: "firstName", headerName: "Type", flex: 1 },
-  { field: "lastName", headerName: "Mode", flex: 1 },
   {
-    field: "age",
+    field: "datetime",
+    headerName: "Date",
+    flex: 1,
+  },
+  { field: "mode", headerName: "Mode", flex: 1 },
+  {
+    field: "amount",
     headerName: "Montant",
     type: "number",
     flex: 1,
   },
 ];
 
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
+interface RootState {
+  TransactionStore: Array<transactionType>;
+}
+const mapStateToProps = (state: RootState, ownProps: any) => ({
+  transactionStore: state.TransactionStore,
+  ownProps: ownProps,
+});
 
-export default function GridComponent() {
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setTransactionsAction: (data: transactionType[]) => {
+      dispatch(setTransactionsAction(data));
+    },
+  };
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
+
+const GridComponent: React.FC<Props> = ({ transactionStore }) => {
   return (
     <Box mt={3}>
-      <Card style={{ height: 605, width: "100%" }}>
-        <DataGrid rows={rows} columns={columns} pageSize={10} />
+      <Card style={{ height: 659, width: "100%" }}>
+        <DataGrid rows={transactionStore} columns={columns} pageSize={10} />
       </Card>
     </Box>
   );
-}
+};
+
+export default connector(GridComponent);

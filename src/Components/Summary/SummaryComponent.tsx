@@ -2,6 +2,11 @@ import React from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import CardComponent from "./CardComponent";
+import { connect, ConnectedProps } from "react-redux";
+
+import { debits, credits, total } from "./../../Utils/TransactionsUtil";
+import { transactionType } from "../../Store/TransactionData/types";
+import { setTransactionsAction } from "../../Store/TransactionData/actions";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,7 +28,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function SummaryComponent() {
+interface RootState {
+  TransactionStore: Array<transactionType>;
+}
+const mapStateToProps = (state: RootState, ownProps: any) => ({
+  transactionStore: state.TransactionStore,
+  ownProps: ownProps,
+});
+
+const connector = connect(mapStateToProps);
+type Props = ReturnType<typeof mapStateToProps>;
+
+const SummaryComponent: React.FC<Props> = ({ transactionStore }) => {
   const classes = useStyles();
 
   return (
@@ -32,25 +48,27 @@ export default function SummaryComponent() {
         <Grid item xs={4}>
           <CardComponent
             type="Débits"
-            amount="183"
+            amount={debits(transactionStore)}
             className={classes.productCard}
           />
         </Grid>
         <Grid item xs={4}>
           <CardComponent
             type="Crédits"
-            amount="150"
+            amount={credits(transactionStore)}
             className={classes.productCard}
           />
         </Grid>
         <Grid item xs={4}>
           <CardComponent
             type="Total"
-            amount="1980"
+            amount={total(transactionStore)}
             className={classes.productCard}
           />
         </Grid>
       </Grid>
     </div>
   );
-}
+};
+
+export default connector(SummaryComponent);

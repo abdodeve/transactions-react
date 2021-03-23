@@ -4,6 +4,13 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { v4 as uuid } from "uuid";
+import { connect } from "react-redux";
+import moment from "moment";
+
+import { transactionType } from "../../Store/TransactionData/types";
+import { addTransactionAction } from "../../Store/TransactionData/actions";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,8 +34,44 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function FormComponent() {
+type Inputs = transactionType;
+
+interface RootState {
+  TransactionStore: Array<transactionType>;
+}
+
+const mapStateToProps = (state: RootState, ownProps: any) => ({
+  transactionStore: state.TransactionStore,
+  ownProps: ownProps,
+});
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    addTransactionAction: (data: transactionType) => {
+      dispatch(addTransactionAction(data));
+    },
+  };
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type compProps = {
+  onClose: Function;
+};
+type Props = ReturnType<typeof mapDispatchToProps> & compProps;
+
+const FormComponent: React.FC<Props> = ({
+  addTransactionAction,
+  onClose,
+}: Props) => {
   const classes = useStyles();
+  const { register, handleSubmit } = useForm<Inputs>();
+  var defaultDate = moment().format("YYYY-MM-DDThh:mm:ss");
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    onClose();
+    const newTransaction = { ...data, id: uuid() };
+    addTransactionAction(newTransaction);
+  };
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
@@ -36,27 +79,47 @@ export default function FormComponent() {
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <TextField
-              id="datetime-local"
+              id="datetime"
+              name="datetime"
+              inputRef={register({ required: true })}
               label="Date"
               type="datetime-local"
-              defaultValue="2020-05-24T10:30"
+              defaultValue={defaultDate}
               InputLabelProps={{
                 shrink: true,
               }}
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField id="standard-helperText" label="Type" />
+            <TextField
+              id="type"
+              name="type"
+              inputRef={register({ required: true })}
+              label="Type"
+            />
           </Grid>
           <Grid item xs={6}>
-            <TextField id="standard-helperText" label="Mode" />
+            <TextField
+              id="mode"
+              name="mode"
+              inputRef={register({ required: true })}
+              label="Mode"
+            />
           </Grid>
           <Grid item xs={6}>
-            <TextField id="standard-helperText" label="Montant" type="number" />
+            <TextField
+              id="amount"
+              name="amount"
+              inputRef={register({ required: true })}
+              label="Montant"
+              type="number"
+            />
           </Grid>
           <Grid item xs={12}>
             <TextField
-              id="standard-helperText"
+              id="comment"
+              name="comment"
+              inputRef={register}
               label="Commentaire"
               multiline
               rows={4}
@@ -69,6 +132,7 @@ export default function FormComponent() {
                 color="primary"
                 className={classes.button}
                 startIcon={<SaveIcon />}
+                onClick={handleSubmit(onSubmit)}
               >
                 Valider
               </Button>
@@ -78,4 +142,6 @@ export default function FormComponent() {
       </div>
     </form>
   );
-}
+};
+
+export default connector(FormComponent);

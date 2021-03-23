@@ -1,16 +1,5 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  TextField,
-  InputAdornment,
-  SvgIcon,
-  Container,
-  makeStyles,
-} from "@material-ui/core";
+import { Box, Container } from "@material-ui/core";
 import GridComponent from "../../Components/Transactions/GridComponent";
 import NewTransactionComponent from "../../Components/Transactions/NewModelComponent";
 
